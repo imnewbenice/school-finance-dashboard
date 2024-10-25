@@ -1,6 +1,5 @@
 name: Deploy React App to GitHub Pages
 
-# Trigger the workflow on push to the main branch
 on:
   push:
     branches:
@@ -11,26 +10,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Check out the repository so the workflow can access the code
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3  # Use v3 for latest version
 
-      # Set up Node.js environment
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3  # Update to v3
         with:
-          node-version: '14'
+          node-version: '20'  # Use Node.js 20
 
-      # Install dependencies
       - name: Install dependencies
         run: npm install
 
-      # Build the app
       - name: Build the app
         run: npm run build
 
-      # Deploy the app to GitHub Pages
       - name: Deploy to GitHub Pages
         run: npm run deploy
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # GitHub provides this automatically
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # GitHub automatically sets this
