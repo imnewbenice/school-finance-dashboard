@@ -11,20 +11,21 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3  # Use the latest version
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16'  # Downgrade to Node.js 16 to avoid compatibility issues
+        uses: actions/setup-node@v3  # Use the latest version, Node.js 20
 
       - name: Install dependencies
         run: npm install
 
+      # Use the compatibility flag to avoid the OpenSSL issue with Webpack
       - name: Build the app
-        run: npm run build
+        run: |
+          export NODE_OPTIONS=--openssl-legacy-provider
+          npm run build
 
       - name: Deploy to GitHub Pages
         run: npm run deploy
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # GitHub provides this token automatically
