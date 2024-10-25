@@ -1,0 +1,36 @@
+name: Deploy React App to GitHub Pages
+
+# Trigger the workflow on push to the main branch
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Check out the repository so the workflow can access the code
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # Set up Node.js environment
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      # Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Build the app
+      - name: Build the app
+        run: npm run build
+
+      # Deploy the app to GitHub Pages
+      - name: Deploy to GitHub Pages
+        run: npm run deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # GitHub provides this automatically
